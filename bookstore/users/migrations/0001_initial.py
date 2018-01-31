@@ -13,14 +13,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Address',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('is_delete', models.BooleanField(verbose_name='删除标记', default=False)),
                 ('create_time', models.DateTimeField(verbose_name='创建时间', auto_now_add=True)),
                 ('update_time', models.DateTimeField(verbose_name='更新时间', auto_now=True)),
-                ('recipient_name', models.CharField(verbose_name='收件人', max_length=20)),
-                ('recipient_addr', models.CharField(verbose_name='收件地址', max_length=256)),
-                ('zip_code', models.CharField(verbose_name='邮政编码', max_length=6)),
-                ('recipient_phone', models.CharField(verbose_name='联系电话', max_length=11)),
+                ('recipient_name', models.CharField(max_length=20, verbose_name='收件人')),
+                ('recipient_addr', models.CharField(max_length=256, verbose_name='收件地址')),
+                ('zip_code', models.CharField(max_length=6, verbose_name='邮政编码')),
+                ('recipient_phone', models.CharField(max_length=11, verbose_name='联系电话')),
                 ('is_default', models.BooleanField(verbose_name='是否删除', default=False)),
             ],
             options={
@@ -30,13 +30,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Passport',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
                 ('is_delete', models.BooleanField(verbose_name='删除标记', default=False)),
                 ('create_time', models.DateTimeField(verbose_name='创建时间', auto_now_add=True)),
                 ('update_time', models.DateTimeField(verbose_name='更新时间', auto_now=True)),
-                ('username', models.CharField(verbose_name='用户名称', max_length=20)),
-                ('password', models.CharField(verbose_name='用户密码', max_length=40)),
-                ('email', models.EmailField(verbose_name='用户邮箱', max_length=254)),
+                ('username', models.CharField(max_length=20, verbose_name='用户名称')),
+                ('password', models.CharField(max_length=40, verbose_name='用户密码')),
+                ('email', models.EmailField(max_length=254, verbose_name='用户邮箱')),
                 ('is_active', models.BooleanField(verbose_name='激活状态', default=False)),
             ],
             options={
@@ -46,6 +46,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='address',
             name='passport',
-            field=models.ForeignKey(to='users.Passport', verbose_name='账户'),
+            field=models.ForeignKey(verbose_name='账户', to='users.Passport'),
         ),
     ]

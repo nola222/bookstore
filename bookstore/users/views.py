@@ -240,7 +240,7 @@ def order(request):
 #         rand_str += str1[random.randrange(0, len(str1))]
 #     print(rand_str)
 #     #构造字体对象
-#     font = ImageFont.truetype("/usr/share/fonts/truetype/lato/Lato-Italic.ttf", 15)
+#     font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf", 15)
 #     #构造字体颜色
 #     fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
 #     #绘制4个字
@@ -290,7 +290,7 @@ def create_code():
     draw = ImageDraw.Draw(img)
     # 设置字体, ubuntu 字体在/usr/share/fonts/truetype/freefont
     # Wind字体放在C:\Windows\Fonts， 使用的是bahnschrift.ttf
-    font = ImageFont.truetype('FreeMono.ttf', 25)
+    font = ImageFont.truetype('DejaVuSans.ttf', 15)
     # 生成字符串
 
     code = getRandomChar()

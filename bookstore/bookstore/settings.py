@@ -25,7 +25,7 @@ SECRET_KEY = '7e-_$8n)*nbkw5hf20gcf0p9-2o&n4g+ocou5sbuw7x7b1-yp9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -88,8 +88,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bookstore',
-        'USER': 'atguigu_test',
-        'PASSWORD': '123456',
+        'USER': 'root',
+        'PASSWORD': 'atguigu',
         'HOST': 'localhost',
         'PORT': 3306,
     }
@@ -114,6 +114,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'collect_static')#部署时收集静态文件的目录
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static'),#调试时使用的静态文件目录
 ]
