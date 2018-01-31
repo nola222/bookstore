@@ -31,7 +31,7 @@
 				<h3 class="common_title2">最近浏览</h3>
 				<div class="has_view_list">
 					<ul class="book_type_list clearfix">
-						{% for book in books_li %}
+						{% for books in books_li %}
 						<li>
 							<a href="{% url 'books:detail' books_id=books.id %}"><img src={% static books.image %}></a>
 							<h4><a href="{% url 'books:detail' books_id=books.id %}">{{ books.name }}</a></h4>

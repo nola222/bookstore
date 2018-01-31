@@ -43,6 +43,8 @@ INSTALLED_APPS = (
     'cart',#购物车模块
     'order',#订单模块
     'haystack',#全文检索
+    'users.templatetags.filters',#过滤器功能
+    'comments',#评论模块
 )
 
 

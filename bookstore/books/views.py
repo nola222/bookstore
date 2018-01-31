@@ -3,6 +3,8 @@ from books.models import Books
 from books.enums import *
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
+from django.views.decorators.cache import cache_page
+from django_redis import get_redis_connection
 
 # Create your views here.
 def index(request):
@@ -40,6 +42,8 @@ def index(request):
     #使用模板
     return render(request,'books/index.html',context)
 
+
+
 def detail(request,books_id):
     '''显示商品详情的页面'''
     #获取商品的详情信息
@@ -49,6 +53,21 @@ def detail(request,books_id):
         return redirect(reverse('books:index'))
     #新品推荐
     books_li = Books.objects.get_books_by_type(type_id=books.type_id,limit=2,sort='new')
+    #用户登录之后,才记录浏览记录
+    #每个用户浏览记录对应redis中的一条信息 格式:'history_用户id':[10,7,9,2,3]
+    if request.session.has_key('islogin'):
+        #用户已登录,记录浏览记录
+        con = get_redis_connection('default')
+        key = 'history_%d' %request.session.get('passport_id')
+        #先从redis列表中移除books.id
+        con.lrem(key,0,books.id)
+        #参数(key_name,count,value)  
+        #count=0 移除表中所有与value相等的值
+        #count>0 从表头到尾部搜索删除与value相等的count个值
+        #count<0 从表尾部到头部搜索删除与value相等的count个值
+        con.lpush(key,books.id)#加入最近浏览记录 lpush 从头部加入
+        con.ltrim(key,0,4)#保存最近浏览的5个商品 ltrim(key_name,count1,count2)队列表进行修剪保留指定区间元素
+
     context = {'books':books,'books_li':books_li}
     print(books.price)
     return render(request,'books/detail.html',context)

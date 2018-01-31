@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse,JsonResponse
 import re
+from django_redis import get_redis_connection
+from books.models import Books
 from users.models import Passport,Address
 from order.models import OrderInfo,OrderBooks
 from utils.decorators import login_required
@@ -73,11 +75,17 @@ def login_check(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
     remember = request.POST.get('remember')
-    print(username,password,remember)
-    #2.数据校验
-    if not all([username,password,remember]):
-        #数据为空
-        return JsonResponse({'res':2})
+    verifycode = request.POST.get('verifycode')
+
+    # 2.数据校验
+    if not all([username, password, remember, verifycode]):
+        # 有数据为空
+        return JsonResponse({'res': 2})
+       
+    # 和session的比较，对了就返回true
+    if verifycode != request.session.get('verifycode', 'error'):
+        return JsonResponse({'res': 2})
+
     #3.根据用户名密码查找用户信息
     passport = Passport.objects.get_one_passport(username=username,password=password)
 
@@ -117,7 +125,16 @@ def user(request):
     passport_id = request.session.get('passport_id')
     #获取用户基本信息
     addr = Address.objects.get_default_address(passport_id=passport_id)
+
+    #获取用户最近的浏览记录
+    con = get_redis_connection('default')
+    key = 'history_%d' %passport_id
+    #取出用户最近浏览5个商品的id
+    history_li = con.lrange(key,0,4)
     books_li = []#最近浏览记录
+    for id in history_li:
+        books = Books.objects.get_books_by_id(books_id=id)
+        books_li.append(books)
     context = {
         'addr':addr,
         'page':'user',
@@ -191,6 +208,111 @@ def order(request):
     print(context)
     return render(request,'users/user_center_order.html',context)
 
+#登录验证码功能实现
+# from django.http import HttpResponse
+# def verifycode(request):
+#     print('enter---------')
+#     #引入绘图模块
+#     from PIL import Image, ImageDraw, ImageFont
+#     #引入随机函数模块
+#     import random
+#     #定义变量，用于画面的背景色、宽、高
+#     bgcolor = (random.randrange(20, 100), random.randrange(
+#         20, 100), 255)
+#     width = 100
+#     height = 25
+#     print(bgcolor)
+#     #创建画面对象
+#     im = Image.new('RGB', (width, height), bgcolor)
+#     print(im)
+#     #创建画笔对象
+#     draw = ImageDraw.Draw(im)
+#     #调用画笔的point()函数绘制噪点
+#     for i in range(0, 100):
+#         xy = (random.randrange(0, width), random.randrange(0, height))
+#         fill = (random.randrange(0, 255), 255, random.randrange(0, 255))
+#         draw.point(xy, fill=fill)
+#     #定义验证码的备选值
+#     str1 = 'ABCD123EFGHIJK456LMNOPQRS789TUVWXYZ0'
+#     #随机选取4个值作为验证码
+#     rand_str = ''
+#     for i in range(0, 4):
+#         rand_str += str1[random.randrange(0, len(str1))]
+#     print(rand_str)
+#     #构造字体对象
+#     font = ImageFont.truetype("/usr/share/fonts/truetype/lato/Lato-Italic.ttf", 15)
+#     #构造字体颜色
+#     fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
+#     #绘制4个字
+#     draw.text((5, 2), rand_str[0], font=font, fill=fontcolor)
+#     draw.text((25, 2), rand_str[1], font=font, fill=fontcolor)
+#     draw.text((50, 2), rand_str[2], font=font, fill=fontcolor)
+#     draw.text((75, 2), rand_str[3], font=font, fill=fontcolor)
+#     #释放画笔
+#     del draw
+#     #存入session，用于做进一步验证
+#     request.session['verifycode'] = rand_str
+#     #内存文件操作
+#     import io
+#     buf = io.BytesIO()
+#     print('buf------',buf)
+#     #将图片保存在内存中，文件类型为png
+#     im.save(buf, 'png')
+#     print(buf.getvalue())
+#     #将内存中的图片数据返回给客户端，MIME类型为图片png
+#     return HttpResponse(buf.getvalue(), 'image/png')
+from django.shortcuts import  HttpResponse
+from PIL import Image, ImageDraw,  ImageFont
+import random
+import string
+from io import BytesIO
 
 
-    
+# 生成随机字符串
+def getRandomChar():
+    # string模块包含各种字符串，以下为小写字母加数字
+    ran = string.ascii_lowercase + string.digits
+    char = ''
+    for i in range(4):
+        char += random.choice(ran)
+    return char
+
+
+# 返回一个随机的RGB颜色
+def getRandomColor():
+    return (random.randint(50, 150), random.randint(50, 150), random.randint(50, 150))
+
+
+def create_code():
+    # 创建图片，模式，大小，背景色
+    img = Image.new('RGB', (130, 30), getRandomColor())
+    # 创建画布
+    draw = ImageDraw.Draw(img)
+    # 设置字体, ubuntu 字体在/usr/share/fonts/truetype/freefont
+    # Wind字体放在C:\Windows\Fonts， 使用的是bahnschrift.ttf
+    font = ImageFont.truetype('FreeMono.ttf', 25)
+    # 生成字符串
+
+    code = getRandomChar()
+    # 将生成的字符画在画布上
+    for t in range(4):
+        # 在画布上写字符串， 随机颜色
+        draw.text((30 * t + 5, 0), code[t], getRandomColor(), font)
+
+    # 生成干扰点
+    for _ in range(random.randint(0, 50)):
+        # 位置，颜色
+        draw.point((random.randint(0, 120), random.randint(0, 30)), fill=getRandomColor())
+    return img, code
+
+
+# 生成验证码
+def verifycode(request):
+    f = BytesIO()
+    img, code = create_code()
+    request.session['verifycode'] = code
+    img.save(f, 'PNG')
+    # 定义cont_type相应内容为
+    return HttpResponse(f.getvalue(), 'image/png')
+                                                    
+                            

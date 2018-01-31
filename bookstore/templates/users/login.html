@@ -11,11 +11,12 @@
 				password = $('#pwd').val()
 				csrf = $("input[name='csrfmiddlewaretoken']").val()
 				remember = $("input[name='remember']").prop('checked')
-				console.log(username,password,csrf,remember)
+				vc = $('input[name="vc"]').val()
+				console.log(username,password,csrf,remember,vc)
 				//发起ajax请求
 				params = {
 					'username':username,'password':password,
-					'csrfmiddlewaretoken':csrf,'remember':remember
+					'csrfmiddlewaretoken':csrf,'remember':remember,'verifycode':vc,
 				}
 				$.post('/user/login_check/',params,function(data){
 					console.log(data['res'])
@@ -45,7 +46,7 @@
 {% endblock search_bar %}
 {% block body %}
 	<div class="login_top clearfix">
-		<a href="index.html" class="login_logo"><img src="{% static 'images/logo.png' %}" style="width: 160px; height: 53px;"></a>	
+		<a class="login_logo"><img src="{% static 'images/logo.png' %}" style="width: 160px; height: 53px;"></a>	
 	</div>
 
 	<div class="login_form_bg">
@@ -55,7 +56,7 @@
 			<div class="login_form fr">
 				<div class="login_title clearfix">
 					<h1>用户登录</h1>
-					<a href="#">立即注册</a>
+					<a href="{% url 'user:register' %}">立即注册</a>
 				</div>
 				<div class="form_input">
 					<form>
@@ -64,6 +65,10 @@
 						<div class="user_error">输入错误</div>
 						<input type="password" id="pwd" class="pass_input" placeholder="请输入密码">
 						<div class="pwd_error">输入错误</div>
+						<div style="top: 95px; position: absolute;">
+							<input style="height: 20px;" type="text" id="vc" name="vc">
+							<img id='verifycode' src="/user/verifycode/" onclick="refresh_check_code(this)" alt="CheckCode"/>
+						</div>
 						<div class="more_input clearfix">
 							<input type="checkbox" name="remember" {{ checked }}>
 							<label>记住用户名</label>
@@ -78,3 +83,10 @@
 {% endblock body %}
 {% block cart_count %}
 {% endblock cart_count %}
+{% block bottomfiles %}
+	<script>
+    function refresh_check_code(ths){
+        ths.src += '?';
+    }
+</script>
+{% endblock bottomfiles %}

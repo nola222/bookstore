@@ -10,3 +10,27 @@
 [2018-01-30 12:03:08 +0800] [22775] [INFO] Booting worker with pid: 22775
 [2018-01-30 12:03:08 +0800] [22776] [INFO] Booting worker with pid: 22776
 [2018-01-30 12:03:08 +0800] [22779] [INFO] Booting worker with pid: 22779
+[2018-01-30 15:00:25 +0800] [22772] [INFO] Handling signal: hup
+[2018-01-30 15:00:25 +0800] [22772] [INFO] Hang up: Master
+[2018-01-30 15:00:25 +0800] [22461] [INFO] Handling signal: hup
+[2018-01-30 15:00:25 +0800] [74777] [INFO] Booting worker with pid: 74777
+[2018-01-30 15:00:25 +0800] [22461] [INFO] Hang up: Master
+[2018-01-30 15:00:25 +0800] [74778] [INFO] Booting worker with pid: 74778
+[2018-01-30 15:00:25 +0800] [74779] [INFO] Booting worker with pid: 74779
+[2018-01-30 15:00:25 +0800] [74780] [INFO] Booting worker with pid: 74780
+[2018-01-30 15:00:25 +0800] [74781] [INFO] Booting worker with pid: 74781
+[2018-01-30 15:00:25 +0800] [74783] [INFO] Booting worker with pid: 74783
+[2018-01-30 15:00:25 +0800] [74782] [INFO] Booting worker with pid: 74782
+[2018-01-30 07:00:27 +0000] [74777] [INFO] Worker exiting (pid: 74777)
+[2018-01-30 18:13:25 +0800] [22772] [CRITICAL] WORKER TIMEOUT (pid:74779)
+[2018-01-30 18:13:26 +0800] [22461] [CRITICAL] WORKER TIMEOUT (pid:74778)
+[2018-01-30 18:13:26 +0800] [22461] [CRITICAL] WORKER TIMEOUT (pid:74780)
+[2018-01-30 18:13:26 +0800] [22461] [CRITICAL] WORKER TIMEOUT (pid:74782)
+[2018-01-30 10:13:26 +0000] [74779] [INFO] Worker exiting (pid: 74779)
+[2018-01-30 10:13:26 +0000] [74782] [INFO] Worker exiting (pid: 74782)
+[2018-01-30 10:13:26 +0000] [74778] [INFO] Worker exiting (pid: 74778)
+[2018-01-30 10:13:26 +0000] [74780] [INFO] Worker exiting (pid: 74780)
+[2018-01-30 18:13:27 +0800] [125203] [INFO] Booting worker with pid: 125203
+[2018-01-30 18:13:27 +0800] [125204] [INFO] Booting worker with pid: 125204
+[2018-01-30 18:13:27 +0800] [125205] [INFO] Booting worker with pid: 125205
+[2018-01-30 18:13:27 +0800] [125207] [INFO] Booting worker with pid: 125207
