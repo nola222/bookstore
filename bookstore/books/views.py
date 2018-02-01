@@ -69,7 +69,6 @@ def detail(request,books_id):
         con.ltrim(key,0,4)#保存最近浏览的5个商品 ltrim(key_name,count1,count2)队列表进行修剪保留指定区间元素
 
     context = {'books':books,'books_li':books_li}
-    print(books.price)
     return render(request,'books/detail.html',context)
 
 #商品种类 页码 排序

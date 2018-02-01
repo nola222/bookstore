@@ -177,6 +177,7 @@ $(function(){
 	$('#comment-input').hide()
 
 	$('#add_cart').click(function(){
+        console.log(11111111)
         // 获取商品的id和商品数量
         books_id = $(this).attr('books_id')
         books_count = $('.num_show').val()
@@ -187,8 +188,10 @@ $(function(){
         	'books_count': books_count,
             'csrfmiddlewaretoken': csrf
         }
+        console.log(222222)
 
         $.post('/cart/add/', params, function (data) {
+        console.log(333333)
             if (data.res == 5){
                 // 添加成功
                 $(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
@@ -268,10 +271,11 @@ $(function(){
 				}
 			}
 		})
-	$.get('/cart/count',function(data){
-				//{'res':商品的数量}
-				$('#show_count').html(data.res)
-			})
+        })
+	$.get('/cart/count/',function(data){
+                //{'res':商品的数量}
+	        $('#show_count').html(data.res)
+	})
 </script>
 
 <style type="text/css">

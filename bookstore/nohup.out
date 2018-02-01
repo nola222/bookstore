@@ -54,3 +54,65 @@
 [2018-01-31 18:03:24 +0800] [30909] [INFO] Booting worker with pid: 30909
 [2018-01-31 18:03:24 +0800] [30911] [INFO] Booting worker with pid: 30911
 [2018-01-31 18:03:24 +0800] [30912] [INFO] Booting worker with pid: 30912
+[2018-01-31 11:51:10 +0000] [30909] [INFO] Parent changed, shutting down: <Worker 30909>
+[2018-01-31 11:51:10 +0000] [30909] [INFO] Worker exiting (pid: 30909)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[2018-01-31 11:51:14 +0000] [30912] [INFO] Parent changed, shutting down: <Worker 30912>
+[2018-01-31 11:51:14 +0000] [30912] [INFO] Worker exiting (pid: 30912)
+
+
+
+
+
+62.00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[2018-01-31 11:51:14 +0000] [30911] [INFO] Parent changed, shutting down: <Worker 30911>
+[2018-01-31 11:51:14 +0000] [30911] [INFO] Worker exiting (pid: 30911)
+62.00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[2018-02-01 13:57:40 +0800] [4081] [INFO] Starting gunicorn 19.7.1
+[2018-02-01 13:57:40 +0800] [4081] [INFO] Listening at: http://0.0.0.0:8000 (4081)
+[2018-02-01 13:57:40 +0800] [4081] [INFO] Using worker: sync
+[2018-02-01 13:57:40 +0800] [4084] [INFO] Booting worker with pid: 4084
+[2018-02-01 13:57:40 +0800] [4085] [INFO] Booting worker with pid: 4085
+[2018-02-01 13:57:40 +0800] [4087] [INFO] Booting worker with pid: 4087

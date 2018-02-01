@@ -69,7 +69,6 @@ def login(request):
     return render(request,'users/login.html',context)
 
 def login_check(request):
-    print(request)
     '''进行用户登录验证'''
     #1.获取数据
     username = request.POST.get('username')
@@ -83,7 +82,7 @@ def login_check(request):
         return JsonResponse({'res': 2})
        
     # 和session的比较，对了就返回true
-    if verifycode != request.session.get('verifycode', 'error'):
+    if verifycode.upper() != request.session['verifycode']:
         return JsonResponse({'res': 2})
 
     #3.根据用户名密码查找用户信息
@@ -208,7 +207,7 @@ def order(request):
     print(context)
     return render(request,'users/user_center_order.html',context)
 
-登录验证码功能实现
+#登录验证码功能实现
 from django.http import HttpResponse
 def verifycode(request):
     print('enter---------')
@@ -238,9 +237,10 @@ def verifycode(request):
     rand_str = ''
     for i in range(0, 4):
         rand_str += str1[random.randrange(0, len(str1))]
-    print(rand_str)
     #构造字体对象
-    font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf", 15)
+    font = ImageFont.truetype("/root/BookStore/bookstore/collect_static/fonts/DejaVuSans.ttf", 15)
+    print(font)
+    print('11111111111111111')
     #构造字体颜色
     fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
     #绘制4个字
@@ -258,7 +258,6 @@ def verifycode(request):
     print('buf------',buf)
     #将图片保存在内存中，文件类型为png
     im.save(buf, 'png')
-    print(buf.getvalue())
     #将内存中的图片数据返回给客户端，MIME类型为图片png
     return HttpResponse(buf.getvalue(), 'image/png')
 # from django.shortcuts import  HttpResponse
