@@ -89,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bookstore',
         'USER': 'root',
-        'PASSWORD': 'atguigu',
+        'PASSWORD': 'nola123456',
         'HOST': 'localhost',
         'PORT': 3306,
     }
@@ -149,8 +149,8 @@ SESSION_CACHE_ALIAS = 'default'
 HAYSTACK_CONNECTIONS = {
     'default':{
         #使用whoosh引擎
-        'ENGINE':'haystack.backends.whoosh_cn_backend.WhooshEngine',
-        #'ENGINE':'haystack.backends.whoosh_backend.WhooshEngine',
+        # 'ENGINE':'haystack.backends.whoosh_cn_backend.WhooshEngine',
+        'ENGINE':'haystack.backends.whoosh_backend.WhooshEngine',
         #索引文件路径
         'PATH':os.path.join(BASE_DIR,'whoosh_index')
     }
